@@ -1,0 +1,36 @@
+package com.example.ecommerceapi.modal;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+@Component
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class product {
+
+    @Id
+    private Integer id;
+    private String name;
+    private int stockQuantity;
+    private BigDecimal price;
+    private String description;
+    private String brand;
+    private String category;
+
+    private Date releaseDate;
+    private boolean productAvailable;
+    private String filename;
+    private String filetype;
+    @Lob
+    private byte[] filedata;
+}
