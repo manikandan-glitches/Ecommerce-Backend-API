@@ -55,4 +55,8 @@ public class productService {
     }
 
 
+    public List<product> searchprod(String search) {
+        List<product> prods = repo.searchById(search);
+        return prods;
+    }
 }

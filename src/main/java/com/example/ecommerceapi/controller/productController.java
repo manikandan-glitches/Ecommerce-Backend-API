@@ -37,7 +37,7 @@ public class productController {
     }
 
     @PutMapping("/product/{id}")
-    public product updateProducts(@RequestBody int id , @RequestPart product product,@RequestPart MultipartFile imagefile){
+    public product updateProducts(@RequestBody int id , @RequestPart product product,@RequestPart MultipartFile imagefile) throws IOException {
         return Service.update(product,imagefile,id);
     }
 
@@ -48,8 +48,9 @@ public class productController {
     }
 
     @GetMapping("/product/search")
-    public List<product> search(){
-
+    public List<product> search(@RequestParam String search){
+        List<product> prods = Service.searchprod(search);
+        return prods;
     }
 
 }
