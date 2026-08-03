@@ -22,7 +22,7 @@ public class productController {
     }
 
     @GetMapping("/product/{id}")
-    public product getProductWithId(@RequestBody int id){
+    public product getProductWithId(@PathVariable int id){
         return Service.getproduct(id);
     }
 
@@ -32,17 +32,17 @@ public class productController {
     }
 
     @GetMapping("/product/image/{id}")
-    public byte[] getImage(@RequestBody int id) {
+    public byte[] getImage(@PathVariable int id) {
         return Service.getimg(id);
     }
 
     @PutMapping("/product/{id}")
-    public product updateProducts(@RequestBody int id , @RequestPart product product,@RequestPart MultipartFile imagefile) throws IOException {
+    public product updateProducts(@PathVariable int id, @RequestPart product product,@RequestPart MultipartFile imagefile) throws IOException {
         return Service.update(product,imagefile,id);
     }
 
     @DeleteMapping("/product/{id}")
-    public void getProducts(@RequestBody int id){
+    public void getProducts(@PathVariable int id){
         Service.del(id);
         return;
     }

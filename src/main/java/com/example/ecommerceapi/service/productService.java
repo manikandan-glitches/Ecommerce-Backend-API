@@ -1,5 +1,6 @@
 package com.example.ecommerceapi.service;
 
+import com.example.ecommerceapi.customException.ProductNotFoundException;
 import com.example.ecommerceapi.modal.product;
 import com.example.ecommerceapi.repository.productRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class productService {
     }
 
     public product getproduct(int id) {
+        if(repo.getById(id) ==null){
+            throw new ProductNotFoundException("Product not found");
+        }
         return repo.getById(id);
     }
 
@@ -32,15 +36,24 @@ public class productService {
 
     public byte[] getimg(int id) {
         product prod = repo.getById(id);
+        if(prod == null){
+            throw new ProductNotFoundException("product not found");
+        }
         return prod.getFiledata();
     }
 
     public void del(int id) {
+        if(repo.getById(id) ==null){
+            throw new ProductNotFoundException("Product not found");
+        }
         repo.deleteById(id);
     }
 
     public product update(product product, MultipartFile imagefile, int id) throws IOException {
         product prod = repo.getById(id);
+        if(prod == null){
+            throw new ProductNotFoundException("product not found");
+        }
         prod.setName(product.getName());
         prod.setBrand(product.getBrand());
         prod.setCategory(product.getCategory());
