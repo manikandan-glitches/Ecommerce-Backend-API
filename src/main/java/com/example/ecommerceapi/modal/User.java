@@ -19,6 +19,7 @@ public class User {
     @Id
     private String username;
     private String pazzword;
+    private Role role;
 
 
 }
