@@ -3,6 +3,9 @@ package com.example.ecommerceapi.controller;
 import com.example.ecommerceapi.modal.product;
 import com.example.ecommerceapi.service.productService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableMBeanExport;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,43 +14,51 @@ import java.util.List;
 
 @RestController
 @RequestMapping("prod")
+@EnableMethodSecurity
 public class productController {
 
     @Autowired
     productService Service;
 
     @GetMapping("/products")
+    @PreAuthorize("hasAuthority('product:read')")
     public List<product> getAllProducts(){
         return Service.getProducts();
     }
 
     @GetMapping("/product/{id}")
+    @PreAuthorize("hasAuthority('product:read')")
     public product getProductWithId(@PathVariable int id){
         return Service.getproduct(id);
     }
 
     @PostMapping("/product")
+    @PreAuthorize("hasAuthority('product:write')")
     public product addProduct(@RequestPart product product , @RequestPart MultipartFile imagefile) throws IOException {
         return Service.addone(product,imagefile);
     }
 
     @GetMapping("/product/image/{id}")
+    @PreAuthorize("hasAuthority('product:read')")
     public byte[] getImage(@PathVariable int id) {
         return Service.getimg(id);
     }
 
     @PutMapping("/product/{id}")
+    @PreAuthorize("hasAuthority('product:update')")
     public product updateProducts(@PathVariable int id, @RequestPart product product,@RequestPart MultipartFile imagefile) throws IOException {
         return Service.update(product,imagefile,id);
     }
 
     @DeleteMapping("/product/{id}")
+    @PreAuthorize("hasAuthority('product:delete')")
     public void getProducts(@PathVariable int id){
         Service.del(id);
         return;
     }
 
     @GetMapping("/product/search")
+    @PreAuthorize("hasAuthority('product:read')")
     public List<product> search(@RequestParam String search){
         List<product> prods = Service.searchprod(search);
         return prods;

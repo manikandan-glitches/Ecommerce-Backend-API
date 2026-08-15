@@ -5,6 +5,7 @@ import com.example.ecommerceapi.custumFilter.jwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -17,7 +18,9 @@ import org.springframework.security.config.annotation.web.configurers.SessionMan
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -26,6 +29,12 @@ public class SecurityConfig {
 
     @Autowired
     jwtFilter jwtFilter;
+
+    @Autowired
+    AccessDeniedHandler acc1;
+
+    @Autowired
+    AuthenticationEntryPoint acc2;
 
     @Bean
     public SecurityFilterChain customSecurity(HttpSecurity http){
@@ -43,10 +52,17 @@ public class SecurityConfig {
                     @Override
                     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
                         auth.requestMatchers("/register","/error","/login").permitAll();
+//                        auth.requestMatchers(HttpMethod.GET,"/prod/**").hasAuthority("product:read");
+//                        auth.requestMatchers(HttpMethod.DELETE,"/prod/**").hasAuthority("product:delete");
+//                        auth.requestMatchers(HttpMethod.PUT,"/prod/**").hasAuthority("product:update");
+//                        auth.requestMatchers(HttpMethod.POST,"/prod/**").hasAuthority("product:write");
                         auth.anyRequest().authenticated();
 
                     }
                 })
+
+                .exceptionHandling(Exception -> Exception.accessDeniedHandler(acc1))
+                .exceptionHandling(Exception->Exception.authenticationEntryPoint(acc2))
 
                 .sessionManagement(new Customizer<SessionManagementConfigurer<HttpSecurity>>() {
                     @Override

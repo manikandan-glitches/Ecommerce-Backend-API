@@ -1,13 +1,13 @@
 package com.example.ecommerceapi.modal;
 
 public enum Permission {
-    CUSTOMER_READ("customer:read"),
-    CUSTOMER_SEARCH("customer:search"),
+    CUSTOMER_READ("product:read"),
+    CUSTOMER_SEARCH("product:search"),
 
-    ADMIN_READ("admin:read"),
-    ADMIN_SEARCH("admin:search"),
-    ADMIN_DELETE("admin:delete"),
-    ADMIN_UPDATE("admin:update");
+    ADMIN_READ("product:read"),
+    ADMIN_SEARCH("product:search"),
+    ADMIN_DELETE("product:delete"),
+    ADMIN_UPDATE("product:update");
 
     private final String permission;
 
